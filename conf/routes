@@ -3,6 +3,8 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
+GET     /register                 controllers.RegisterController.register
+POST    /register                 controllers.RegisterController.registerPost
 # An example controller showing a sample home page
 GET     /                           controllers.HomeController.index
 # An example controller showing how to use dependency injection
@@ -14,6 +16,8 @@ GET     /message                    controllers.AsyncController.message
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
 
 GET     /index2                     controllers.HomeController.index2
+
+
 
 # Authentication
 #GET     /login                      controllers.AuthenticationController.login

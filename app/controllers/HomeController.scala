@@ -1,6 +1,8 @@
 package controllers
 
 import javax.inject._
+
+import models.{DAO, HibernateHolder, User, UserDAO}
 import play.api.mvc._
 
 /**
@@ -20,8 +22,17 @@ class HomeController @Inject()(cc: ControllerComponents) extends AbstractControl
     Ok(views.html.index("Your new application is ready."))
   }
 
-  def index2 = Action(
+  def index2 = Action { implicit request =>
+    test
     Ok(views.html.index2("Michał"))
-  )
+  }
+
+  def test : Unit = {
+    HibernateHolder.init()
+    val userDAO: DAO[User] = new UserDAO()
+    val user = new User()
+    user.email = "test"
+    userDAO.create(user)
+  }
 
 }

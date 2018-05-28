@@ -14,6 +14,8 @@ libraryDependencies ++= Seq( jdbc , ehcache , ws , specs2 % Test , guice )
 
 libraryDependencies += "mysql" % "mysql-connector-java" % "6.0.6"
 
+libraryDependencies += "org.hibernate" % "hibernate-core" % "5.1.0.Final"
+
 //unmanagedResourceDirectories in Test +=  baseDirectory ( _ /"target/web/public/test" )
 
       

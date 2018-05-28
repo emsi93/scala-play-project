@@ -18,7 +18,7 @@ import scala.concurrent.Future
  * in the [[Module]] class to see how this happens.
  *
  * This class needs to run code when the server stops. It uses the
- * application's [[ApplicationLifecycle]] to register a stop hook.
+ * application's [[ApplicationLifecycle]] to registerForm a stop hook.
  */
 @Singleton
 class ApplicationTimer @Inject() (clock: Clock, appLifecycle: ApplicationLifecycle) {
@@ -27,7 +27,7 @@ class ApplicationTimer @Inject() (clock: Clock, appLifecycle: ApplicationLifecyc
   private val start: Instant = clock.instant
   Logger.info(s"ApplicationTimer demo: Starting application at $start.")
 
-  // When the application starts, register a stop hook with the
+  // When the application starts, registerForm a stop hook with the
   // ApplicationLifecycle object. The code inside the stop hook will
   // be run when the application stops.
   appLifecycle.addStopHook { () =>
