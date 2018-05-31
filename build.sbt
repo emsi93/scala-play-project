@@ -3,6 +3,8 @@ name := "projectScalaPlay"
 version := "1.0" 
       
 lazy val root = (project in file(".")).enablePlugins(PlayScala)
+//lazy val myProject = (project in file("."))
+//  .enablePlugins(PlayJava, PlayEbean)
 
 resolvers += "scalaz-bintray" at "https://dl.bintray.com/scalaz/releases"
       
@@ -14,7 +16,7 @@ libraryDependencies ++= Seq( jdbc , ehcache , ws , specs2 % Test , guice )
 
 libraryDependencies += "mysql" % "mysql-connector-java" % "6.0.6"
 
-libraryDependencies += "org.hibernate" % "hibernate-core" % "5.1.0.Final"
+
 
 //unmanagedResourceDirectories in Test +=  baseDirectory ( _ /"target/web/public/test" )
 

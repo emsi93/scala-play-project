@@ -5,6 +5,9 @@
 
 GET     /register                 controllers.RegisterController.register
 POST    /register                 controllers.RegisterController.registerPost
+
+GET     /login                    controllers.AuthenticateController.login
+POST    /login                    controllers.AuthenticateController.authenticate
 # An example controller showing a sample home page
 GET     /                           controllers.HomeController.index
 # An example controller showing how to use dependency injection

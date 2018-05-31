@@ -1,10 +1,9 @@
 package controllers
 
-import java.util.Date
 import javax.inject.{Inject, Singleton}
 
+import db.ConnectionHandler
 import forms.RegisterForm
-import models.{DAO, HibernateHolder, User, UserDAO}
 import play.api.i18n.I18nSupport
 import play.api.mvc.{AbstractController, AnyContent, ControllerComponents, Request}
 
@@ -12,24 +11,20 @@ import play.api.mvc.{AbstractController, AnyContent, ControllerComponents, Reque
 @Singleton
 class RegisterController @Inject()(cc: ControllerComponents) extends AbstractController(cc) with I18nSupport {
 
-  def register() = Action {  implicit request: Request[AnyContent] =>
+  def register() = Action { implicit request: Request[AnyContent] =>
     Ok(views.html.registerForm(RegisterForm.form))
   }
 
-  def registerPost() = Action { implicit request =>
+  def registerPost() = Action { implicit request: Request[AnyContent] =>
     val formData: RegisterForm = RegisterForm.form.bindFromRequest.get
-    registerUser(formData)
+    if(RegisterForm.isValid(formData)){
+      var connectionHandler = new ConnectionHandler()
+      connectionHandler.connect()
+      connectionHandler.saveUser(formData.login, formData.password)
+      connectionHandler.close()
+      connectionHandler = null
+    }
     Ok(formData.toString) // just returning the data because it's an example :)
   }
 
-  def registerUser(formData: RegisterForm) : Unit = {
-    HibernateHolder.init()
-    val userDAO: DAO[User] = new UserDAO()
-    val user = new User()
-    user.username = formData.login
-    user.password = formData.password
-    user.role = "USER"
-    user.created = new Date()
-    userDAO.create(user)
-  }
 }

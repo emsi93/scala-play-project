@@ -1,0 +1,16 @@
+@import helper._
+
+@import forms.LoginForm
+
+@(loginFrom: Form[LoginForm])(implicit request: RequestHeader, messagesProvider: MessagesProvider)
+
+@main("Scala Play forms tutorial") {
+  <h1>Scala Play forms tutorial</h1>
+
+  @form(action = helper.CSRF( routes.AuthenticateController.authenticate() )) {
+    @inputText(loginFrom("login"))
+    @inputPassword(loginFrom("password"))
+
+    <input type="submit" value="Submit">
+  }
+}
