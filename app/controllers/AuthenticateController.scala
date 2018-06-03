@@ -17,9 +17,23 @@ class AuthenticateController @Inject()(cc: ControllerComponents) extends Abstrac
     Ok(views.html.login(LoginForm.form))
   }
 
-  def authenticate() = Action { implicit request: Request[AnyContent] =>
-    val formData: LoginForm = LoginForm.form.bindFromRequest.get
-    Ok(formData.toString)
+  def authenticate = Action { implicit request =>
+    var formData: RegisterForm = RegisterForm.form.bindFromRequest.get
+    var connectionHandler = new ConnectionHandler()
+    connectionHandler.connect()
+    var username = connectionHandler.findUsernameByLoginAndPassword(formData.login, formData.password)
+    connectionHandler.close()
+    if(username.equals("") || username == null){
+      Ok(views.html.error("Wrong credentials"))
+    }else{
+      Ok(views.html.index2(username)).withSession("username" -> username)
+    }
+  }
+
+  def logout = Action {
+    Redirect(routes.AuthenticateController.login).withNewSession.flashing(
+      "success" -> "You've been logged out"
+    )
   }
 
 }

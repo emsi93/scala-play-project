@@ -66,6 +66,19 @@ class ConnectionHandler {
     phoneNumberList.toList
   }
 
+  def findUsernameByLoginAndPassword(login: String, password: String): String = {
+   // var passwordHash = String.format("%064x", new java.math.BigInteger(1, java.security.MessageDigest.getInstance("SHA-256").digest(password.getBytes("UTF-8"))))
+    val statement = connection.prepareStatement("SELECT username FROM play.users WHERE username = ? AND password = ?")
+    statement.setString(1, login)
+    statement.setString(2, password)
+    val resultSet = statement.executeQuery()
+    var username = new String()
+    while (resultSet.next()) {
+      username = resultSet.getString("username")
+    }
+    username
+  }
+
   def findUserById(id:Int): User = {
     val statement = connection.prepareStatement("SELECT * FROM play.users WHERE id = ?")
     statement.setString(1, String.valueOf(id))
@@ -84,8 +97,8 @@ class ConnectionHandler {
 
   def saveUser(login: String, password: String): Unit = {
     val statement = connection.prepareStatement("INSERT INTO play.users(created, password, role, username) VALUES (NOW(), ?, ?, ?)")
-    var passwordHash = String.format("%064x", new java.math.BigInteger(1, java.security.MessageDigest.getInstance("SHA-256").digest(password.getBytes("UTF-8"))))
-    statement.setString(1, passwordHash)
+    //var passwordHash = String.format("%064x", new java.math.BigInteger(1, java.security.MessageDigest.getInstance("SHA-256").digest(password.getBytes("UTF-8"))))
+    statement.setString(1, password)
     statement.setString(2, "USER")
     statement.setString(3, login)
     statement.executeUpdate()

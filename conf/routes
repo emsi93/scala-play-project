@@ -8,6 +8,8 @@ POST    /register                 controllers.RegisterController.registerPost
 
 GET     /login                    controllers.AuthenticateController.login
 POST    /login                    controllers.AuthenticateController.authenticate
+GET     /logout                   controllers.AuthenticateController.logout
+
 # An example controller showing a sample home page
 GET     /                           controllers.HomeController.index
 # An example controller showing how to use dependency injection
@@ -20,6 +22,8 @@ GET     /assets/*file               controllers.Assets.versioned(path="/public",
 
 GET     /index2                     controllers.HomeController.index2
 
+GET     /home                     controllers.HomeController.home
+
 GET     /listuser                   controllers.HomeController.listUser
 GET     /user/details/:id                controllers.HomeController.userDetails(id:Int)
 
@@ -27,9 +31,3 @@ GET     /number/:id                 controllers.HomeController.newPhoneNumber(id
 POST    /number                     controllers.HomeController.newPhoneNumberPost()
 
 GET     /delete/number/:id           controllers.HomeController.deleteNumber(id:Int)
-
-
-# Authentication
-#GET     /login                      controllers.AuthenticationController.login
-#POST    /login                      controllers.Authentication.authenticate
-#GET     /logout                     controllers.Authentication.logout
