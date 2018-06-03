@@ -4,8 +4,8 @@
 
 @(userForm: Form[RegisterForm])(implicit request: RequestHeader, messagesProvider: MessagesProvider)
 
-@main("Scala Play forms tutorial") {
-  <h1>Scala Play forms tutorial</h1>
+@main("Register"){
+  <h1>Register</h1>
 
   @form(action = helper.CSRF( routes.RegisterController.registerPost() )) {
     @inputText(userForm("login"))

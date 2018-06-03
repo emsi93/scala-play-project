@@ -1,0 +1,25 @@
+@(users: List[User])
+@main("Welcome to Play") {
+    <ul id="persons"></ul>
+    List users
+    <table class="table">
+
+        <tr>
+            <th>ID</th>
+            <th>Login</th>
+            <th>Email</th>
+            <th>Details</th>
+            <th>New number</th>
+        </tr>
+
+        @for(user <- users) {
+            <tr>
+                <td>@user.id</td>
+                <td>@user.username</td>
+                <td>@user.email</td>
+                <td><a href="/user/details/@user.id" class="button">Details</a></td>
+                <td><a href="/number/@user.id" class="button">New number</a></td>
+            </tr>
+        }
+    </table>
+}

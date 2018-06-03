@@ -1,0 +1,15 @@
+@import helper._
+@import forms.PhoneNumberForm
+
+@(phoneNumberForm: Form[PhoneNumberForm], id: Int)(implicit request: RequestHeader, messagesProvider: MessagesProvider)
+
+
+@main("Phone number"){
+  <h1>Add phone number</h1>
+
+  @form(action = helper.CSRF( routes.HomeController.newPhoneNumberPost() )) {
+    @inputText(phoneNumberForm("phoneNumber"))
+    <input type="hidden" name="idUser" value='@id' >
+    <input type="submit" value="Submit">
+  }
+}

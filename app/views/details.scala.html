@@ -1,0 +1,15 @@
+@(user: User, phoneNumbers : List[PhoneNumber])
+@main("Welcome to Play") {
+  <h1>Details:</h1><br/>
+  Login: @user.username <br/>
+  Email: @user.email <br/>
+  Created: @user.created <br/>
+  Role: @user.role<br><br>
+
+
+  Numbers:<br/>
+
+  @for(phoneNumber <- phoneNumbers) {
+    @phoneNumber.number <a href = "/delete/number/@phoneNumber.id">Delete</a><br/>
+  }
+}

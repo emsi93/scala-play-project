@@ -20,6 +20,13 @@ GET     /assets/*file               controllers.Assets.versioned(path="/public",
 
 GET     /index2                     controllers.HomeController.index2
 
+GET     /listuser                   controllers.HomeController.listUser
+GET     /user/details/:id                controllers.HomeController.userDetails(id:Int)
+
+GET     /number/:id                 controllers.HomeController.newPhoneNumber(id:Int)
+POST    /number                     controllers.HomeController.newPhoneNumberPost()
+
+GET     /delete/number/:id           controllers.HomeController.deleteNumber(id:Int)
 
 
 # Authentication

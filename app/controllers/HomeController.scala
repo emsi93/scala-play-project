@@ -2,14 +2,19 @@ package controllers
 
 import javax.inject._
 
+import db.ConnectionHandler
+import forms.{PhoneNumberForm, RegisterForm}
+import models.User
+import play.api.i18n.I18nSupport
 import play.api.mvc._
+import views.html.list
 
 /**
  * This controller creates an `Action` to handle HTTP requests to the
  * application's home page.
  */
 @Singleton
-class HomeController @Inject()(cc: ControllerComponents) extends AbstractController(cc) {
+class HomeController @Inject()(cc: ControllerComponents) extends AbstractController(cc) with I18nSupport {
 
   /**
    * Create an Action to render an HTML page with a welcome message.
@@ -26,12 +31,47 @@ class HomeController @Inject()(cc: ControllerComponents) extends AbstractControl
     Ok(views.html.index2("Michał"))
   }
 
-//  def test : Unit = {
-//    HibernateHolder.init()
-//    val userDAO: DAO[User] = new UserDAO()
-//    val user = new User()
-//    user.email = "test"
-//    userDAO.create(user)
-//  }
 
+  def listUser = Action { implicit request =>
+    var connectionHandler = new ConnectionHandler()
+    connectionHandler.connect()
+    var listUser =  connectionHandler.findAllUser()
+    connectionHandler.close()
+    Ok(views.html.list(listUser))
+  }
+
+  def userDetails(id: Int) = Action { implicit request =>
+    var connectionHandler = new ConnectionHandler()
+    connectionHandler.connect()
+    var user =  connectionHandler.findUserById(id)
+    var numberList = connectionHandler.findPhoneNumberByUserId(id)
+    connectionHandler.close()
+    Ok(views.html.details(user, numberList))
+  }
+
+  def newPhoneNumber(id: Int) = Action{ implicit request =>
+      Ok(views.html.phone(PhoneNumberForm.form, id))
+  }
+
+  def newPhoneNumberPost() = Action{ implicit request =>
+    val formData: PhoneNumberForm = PhoneNumberForm.form.bindFromRequest.get
+    if (PhoneNumberForm.isValid(formData)) {
+      var connectionHandler = new ConnectionHandler()
+      connectionHandler.connect()
+      connectionHandler.savePhoneNumber(formData.phoneNumber, formData.idUser)
+      connectionHandler.close()
+      connectionHandler = null
+      Ok(views.html.success("Adding the phone number was successful"))
+    } else {
+      Ok(views.html.error("Incorrect phone number"))
+    }
+  }
+
+  def deleteNumber(id:Int) = Action { implicit request =>
+    var connectionHandler = new ConnectionHandler()
+    connectionHandler.connect()
+    connectionHandler.deleteNumber(id)
+    connectionHandler.close()
+    Ok(views.html.success("Deleted number"))
+  }
 }
