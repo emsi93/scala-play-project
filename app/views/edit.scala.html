@@ -4,8 +4,8 @@
 
 @(editForm: Form[EditForm])(implicit request: RequestHeader, messagesProvider: MessagesProvider)
 
-@main("Register"){
-  <h1>Register</h1>
+@main("Edit"){
+  <h1>Edit</h1>
 
   @form(action = helper.CSRF( routes.EditController.editPost() )) {
     @inputText(editForm("name"))
