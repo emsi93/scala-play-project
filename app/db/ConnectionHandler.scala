@@ -10,6 +10,8 @@ import scala.collection.mutable.ListBuffer
 
 class ConnectionHandler {
 
+
+
   val driver = "com.mysql.cj.jdbc.Driver"
   val url = "jdbc:mysql://localhost:3306/play?verifyServerCertificate=true&useSSL=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC"
   val username = "root"
@@ -34,6 +36,39 @@ class ConnectionHandler {
     result
   }
 
+  def findIdByLogin(login: String): Int = {
+    var result: Int = -1
+    val statement = connection.prepareStatement("SELECT id FROM play.users WHERE username = ?")
+    statement.setString(1, login)
+    val resultSet = statement.executeQuery()
+    while (resultSet.next()) {
+      result = resultSet.getInt("id")
+
+    }
+    result
+  }
+
+  def updateUser(id: Int, name: String, surname: String, email:String) : Unit = {
+    val statement = connection.prepareStatement("UPDATE play.users SET name = ?, surname = ?, email = ? WHERE id = ?")
+    statement.setString(1, name)
+    statement.setString(2, surname)
+    statement.setString(3, email)
+    statement.setString(4, String.valueOf(id))
+    statement.executeUpdate()
+  }
+
+  def findUserByEmail(email: String) : Boolean = {
+    var result: Boolean = false
+    val statement = connection.prepareStatement("SELECT username FROM play.users WHERE email = ?")
+    statement.setString(1, email)
+    val resultSet = statement.executeQuery()
+    while (resultSet.next()) {
+      result = true
+
+    }
+    result
+  }
+
   def findAllUser(): List[User] = {
     var listUser = new ListBuffer[User]
     val statement = connection.createStatement()
@@ -46,6 +81,8 @@ class ConnectionHandler {
       user.role = resultSet.getString("role")
       user.email = resultSet.getString("email")
       user.created = resultSet.getDate("created")
+      user.name = resultSet.getString("name")
+      user.surname = resultSet.getString("surname")
       listUser += user
     }
     listUser.toList
@@ -91,6 +128,8 @@ class ConnectionHandler {
       user.role = resultSet.getString("role")
       user.email = resultSet.getString("email")
       user.created = resultSet.getDate("created")
+      user.name = resultSet.getString("name")
+      user.surname = resultSet.getString("surname")
     }
     user
   }

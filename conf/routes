@@ -6,6 +6,11 @@
 GET     /register                 controllers.RegisterController.register
 POST    /register                 controllers.RegisterController.registerPost
 
+GET     /edit                 controllers.EditController.edit
+POST    /edit                 controllers.EditController.editPost
+
+GET     /myaccount            controllers.HomeController.myAccountDetails
+
 GET     /login                    controllers.AuthenticateController.login
 POST    /login                    controllers.AuthenticateController.authenticate
 GET     /logout                   controllers.AuthenticateController.logout

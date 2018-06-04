@@ -10,5 +10,7 @@ class User{
   var role: String = _
   var email: String = _
   var created: Date = _
+  var name: String = _
+  var surname: String = _
 }
 

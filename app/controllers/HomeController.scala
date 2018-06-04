@@ -33,7 +33,11 @@ class HomeController @Inject()(cc: ControllerComponents) extends AbstractControl
   }
 
   def home = Action { implicit request =>
-    Ok(views.html.home())
+    request.session.get("username").map { username =>
+      Ok(views.html.index2(username))
+    }.getOrElse {
+      Ok(views.html.home())
+    }
   }
 
 
@@ -44,6 +48,20 @@ class HomeController @Inject()(cc: ControllerComponents) extends AbstractControl
       var listUser =  connectionHandler.findAllUser()
       connectionHandler.close()
       Ok(views.html.list(listUser))
+    }.getOrElse {
+      Ok(views.html.error("You must be logged"))
+    }
+  }
+
+  def myAccountDetails() = Action { implicit request =>
+    request.session.get("username").map { username =>
+      var connectionHandler = new ConnectionHandler()
+      connectionHandler.connect()
+      var id =  connectionHandler.findIdByLogin(username)
+      var user =  connectionHandler.findUserById(id)
+      var numberList = connectionHandler.findPhoneNumberByUserId(id)
+      connectionHandler.close()
+      Ok(views.html.myaccount(user, numberList))
     }.getOrElse {
       Ok(views.html.error("You must be logged"))
     }

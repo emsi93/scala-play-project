@@ -1,0 +1,17 @@
+@import helper._
+
+@import forms.EditForm
+
+@(editForm: Form[EditForm])(implicit request: RequestHeader, messagesProvider: MessagesProvider)
+
+@main("Register"){
+  <h1>Register</h1>
+
+  @form(action = helper.CSRF( routes.EditController.editPost() )) {
+    @inputText(editForm("name"))
+    @inputText(editForm("surname"))
+    @inputText(editForm("email"))
+
+    <input type="submit" value="Submit">
+  }
+}

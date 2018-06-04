@@ -14,7 +14,11 @@ class AuthenticateController @Inject()(cc: ControllerComponents) extends Abstrac
 
 
   def login = Action { implicit request =>
-    Ok(views.html.login(LoginForm.form))
+    request.session.get("username").map { username =>
+      Ok(views.html.index2(username))
+    }.getOrElse {
+      Ok(views.html.login(LoginForm.form))
+    }
   }
 
   def authenticate = Action { implicit request =>
@@ -31,7 +35,7 @@ class AuthenticateController @Inject()(cc: ControllerComponents) extends Abstrac
   }
 
   def logout = Action {
-    Redirect(routes.AuthenticateController.login).withNewSession.flashing(
+    Redirect(routes.HomeController.home).withNewSession.flashing(
       "success" -> "You've been logged out"
     )
   }

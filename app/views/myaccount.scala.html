@@ -8,10 +8,13 @@
   Created: @user.created <br/>
   Role: @user.role<br><br>
 
+  <a href="/edit" class="button">Edit</a>
 
   Numbers:<br/>
 
   @for(phoneNumber <- phoneNumbers) {
-    @phoneNumber.number
+    @phoneNumber.number <a href = "/delete/number/@phoneNumber.id">Delete</a><br/>
   }
+
+  <a href="/number/@user.id" class="button">New number</a>
 }

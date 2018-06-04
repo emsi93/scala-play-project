@@ -3,8 +3,6 @@ name := "projectScalaPlay"
 version := "1.0" 
       
 lazy val root = (project in file(".")).enablePlugins(PlayScala)
-//lazy val myProject = (project in file("."))
-//  .enablePlugins(PlayJava, PlayEbean)
 
 resolvers += "scalaz-bintray" at "https://dl.bintray.com/scalaz/releases"
       

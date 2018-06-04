@@ -3,7 +3,7 @@ package controllers
 import javax.inject.{Inject, Singleton}
 
 import db.ConnectionHandler
-import forms.RegisterForm
+import forms.{LoginForm, RegisterForm}
 import play.api.i18n.I18nSupport
 import play.api.mvc.{AbstractController, AnyContent, ControllerComponents, Request}
 
@@ -12,7 +12,11 @@ import play.api.mvc.{AbstractController, AnyContent, ControllerComponents, Reque
 class RegisterController @Inject()(cc: ControllerComponents) extends AbstractController(cc) with I18nSupport {
 
   def register() = Action { implicit request: Request[AnyContent] =>
-    Ok(views.html.registerForm(RegisterForm.form))
+    request.session.get("username").map { username =>
+      Ok(views.html.index2(username))
+    }.getOrElse {
+      Ok(views.html.registerForm(RegisterForm.form))
+    }
   }
 
   def registerPost() = Action { implicit request: Request[AnyContent] =>
